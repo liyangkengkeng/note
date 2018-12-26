@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+
+<!-- 位移 -->
+  <svg width="320" height="320" xmlns="http://www.w3.org/2000/svg">
+  <g> 
+    <text font-family="microsoft yahei" font-size="120" y="160" x="160">
+      马
+      <set attributeName="x" attributeType="XML" to="60" begin="2s"/>
+    </text>
+  </g>
+</svg>
+
+<!-- 动画位移 -->
+<svg width="320" height="320" xmlns="http://www.w3.org/2000/svg">
+  <g> 
+    <text font-family="microsoft yahei" font-size="120" y="160" x="160">
+    马
+      <animate attributeName="x" from="160" to="60" begin="1s" dur="3s" repeatCount="indefinite" />
+    </text>
+  </g>
+</svg>
+
+<!-- 放大元素 -->
+<svg width="320" height="320" xmlns="http://www.w3.org/2000/svg">
+  <g> 
+    <text font-family="microsoft yahei" font-size="80" y="100" x="100">马</text>
+    <!-- <animateTransform attributeName="transform" begin="0s" dur="3s"  type="scale" from="1" to="1.5" repeatCount="indefinite"/> -->
+    <animateTransform attributeName="transform" begin="2s;7s;9s" dur="3s"  type="scale" from="1" to="1.5" />
+  </g>
+</svg>
+
+
+<!-- 曲线运动 rotate='auto':元素跟随曲线旋转  多个动画组合-->
+<svg width="360" height="200" xmlns="http://www.w3.org/2000/svg">
+  <text font-family="microsoft yahei" font-size="40" x="0" y="0" fill="#cd0000">马
+    <animateMotion path="M20,80 q100,120 120,20 q140,-50 160,50" begin="0s" dur="3s" rotate='auto' repeatCount="indefinite"/>
+    <animate attributeName='opacity' from='1' to='0' begin='0s' dur='3s' repeatCount="indefinite"/>
+  </text>
+  <path d="M20,80 q100,120 120,20 q140,-50 160,50" stroke="#cd0000" stroke-width="2" fill="none" />
+</svg>
+
+<!-- begin=x.end -->
+<svg width="320" height="200" xmlns="http://www.w3.org/2000/svg">
+    <text font-family="microsoft yahei" font-size="120" y="160" x="160">马
+        <animate id="x" attributeName="x" to="60" begin="0s" dur="3s" fill="freeze" />
+        <animate attributeName="y" to="60" begin="x.end" dur="3s" fill="freeze" />
+    </text>
+</svg>
+
+
+<!-- begin="circle.click" 点击事件-->
+<div>
+  <!-- <p id="circle" style='width:20px;height:20px;border-radius:50%;background:#000'></p> -->
+</div>
+<svg id="svg" width="320" height="200" xmlns="http://www.w3.org/2000/svg">
+    <circle id="circle" cx="100" cy="100" r="50"></circle>
+    <text font-family="microsoft yahei" font-size="120" y="160" x="160">马
+        <animate attributeName="x" to="60" begin="circle.click" dur="3s" />
+    </text>
+</svg>
+
+
+<!-- a标签触发动画 -->
+<svg width="320" height="200" font-family="microsoft yahei" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+     <text font-size="120" y="160" x="160">马
+          <animate id="animate" attributeName="x" to="60" begin="indefinite" dur="3s" repeatCount="indefinite" />
+     </text>
+     <a xlink:href="#animate">
+          <text x="10" y="20" fill="#cd0000" font-size="30">点击我</text>
+     </a>
+</svg>
+
+
+
+attributeName ：属性名称，例：opacity
+
+<!-- attributeType = “CSS | XML | auto” -->
+
+from : 动画起始值
+
+to:动画结束位置（绝对位置）
+
+by：动画结束位置（相对位置）
+
+values：多点动画 100；110；100  来回的动画效果
+
+begin：动画延迟时间  1s，2s，5s，动画执行三次
+        begin：x.end   等待元素id=x动画结束在运行
+        begin：x.end-1s   等待元素id=x动画结束前1s运行
+        begin="circle.click+2s"  点击元素id=circle  2s在运行   svg标签内有效
+        begin="x.repeat(2)"   元素id=x 动画重复2次
+        begin="accessKey(s)"   按下键盘 S 键开始动画
+        begin="indefinite"    js中通过  元素.beginElement() 触发动画
+                              a标签锚点也可触发动画  xlink:href=‘元素’  （#id）
+
+dur： 动画持续的时间
+      dur='indefinite'    不执行动画
+
+
+<!-- 运动规律  匀速、加速。。 -->
+<animate attributeName="x" dur="5s" values="0; 20; 160" calcMode="linear" />
+<animate attributeName="x" dur="5s" values="0; 20; 160" calcMode="paced"/>
+<animate attributeName="x" dur="5s" values="0; 80; 160" keyTimes="0; .8; 1" calcMode="linear"/>
+<animate attributeName="x" dur="5s" values="0; 80; 160" keyTimes="0; .8; 1" calcMode="spline"  keySplines=".5 0 .5 1; 0 0 1 1" />
+
+
+repeatCount：动画执行次数 
+            repeatCount="indefinite"  动画无限循环执行
+ repeatDur：动画执行总时间
+            repeatDur="indefinite"  动画无限执行下去
+
+
+fill：fill='freeze' 保持动画结束状态
+      fill='remove'  默认值，返回原状态
+
+
+additive：additive='replace' 默认值  替换上一个动画属性
+          additive='sum'  叠加动画属性
+<svg width="320" height="320" xmlns="http://www.w3.org/2000/svg">
+  <g> 
+    <text font-family="microsoft yahei" font-size="20" y="160" x="160">马</text>
+    <animateTransform attributeName="transform" type="scale" from="1" to="2" dur="10s" repeatCount="indefinite" additive="sum"/>
+    <animateTransform attributeName="transform" type="rotate" from="0 100 60" to="360 100 60" dur="10s" fill="freeze" repeatCount="indefinite" additive="sum"/>
+  </g>
+</svg>
+
+
+restart：restart='always'  默认值
+          restart='whenNotActive' 动画正在进行的时候，是不能重启动画的 
+          restart='never'  只能点击一次
+
+
+
+动画暂停与重启
+// svg指当前svg DOM元素
+// 暂停
+svg.pauseAnimations();
+
+// 重启动
+svg.unpauseAnimations()
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

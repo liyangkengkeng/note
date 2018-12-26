@@ -1,0 +1,27 @@
+1、重绘、重排
+	重绘（Repaint）==》元素颜色等发生变化，不影响页面布局，重新绘制-->图层合并
+	重排（Reflow）==》当元素位置、大小等发生变化影响布局（js影响等），计算样式-->重新布局-->重新绘制-->图层合并
+	
+	优化：	修改DOM尽量通过class修改
+		多DOM操作放在createDocumentFragment虚拟元素中，一次性塞入页面
+		修改样式尽量让该元素脱离文档流
+
+2、css选择器
+	css选择器从右到左匹配   #div .div1 span  先找到所有span元素，在找父元素class=div1  再找id=#div
+	2.1、尽量减少选择层级
+	2.2、尽量使用class选择，（与id相比更灵活）
+	
+3、float：在渲染是计算量比较大，尽量少用
+
+4、动画性能
+	css动画会触发页面重排、重绘，所以尽可能让动画元素不在文档流中
+	transfrom=translate3D（）属性会创建自己的绘图层，可以触发GPU硬件加速
+
+	left=10px   将触发10次重排=》left=9px、left=8px ....
+	transfrom=translateX(10px)  只会触发一次图层合并
+	尽量使用transfrom替代 margin、top、width等
+
+
+
+	
+	     	 	
